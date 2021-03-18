@@ -1,6 +1,8 @@
 import React from 'react'
 import HomePage from './pages/HomePage/HomePage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
+import ProductActionPage from './pages/ProductActionPage/ProductActionPage'
+import ProductListPage from './pages/ProductListPage/ProductListPage'
 
 const routes = [
   {
@@ -8,6 +10,27 @@ const routes = [
     exact: true,
     main: () => {
       return <HomePage />
+    }
+  },
+  {
+    path: '/product-list',
+    exact: false,
+    main: () => {
+      return <ProductListPage />
+    }
+  },
+  {
+    path: '/product/add',
+    exact: false,
+    main: () => {
+      return <ProductActionPage />
+    }
+  },
+  {
+    path: '/product/:id/edit',
+    exact: false,
+    main: ({ match }) => {
+      return <ProductActionPage match={match}/>
     }
   },
   {
