@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ProductItem from '../ProductItem/ProductItem';
 import './ProductList.css';
 
 class ProductList extends Component {
@@ -22,9 +21,7 @@ class ProductList extends Component {
               </tr>
             </thead>
             <tbody>
-              <ProductItem />
-              <ProductItem />
-              <ProductItem />
+              { this.props.children }
             </tbody>
           </table>
         </div>

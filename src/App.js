@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Menu from './components/Menu/Menu';
-import ProductList from './components/ProductList/ProductList';
 import routes from './routes'
 
 function App() {
@@ -26,10 +25,6 @@ function App() {
       <Menu />
       <div className="container">
         <div className="row">
-          {/* <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" className="btn btn-success">Add New Product</button><hr />
-            <ProductList />
-          </div> */}
           {showContent(routes)}
         </div>
       </div>
