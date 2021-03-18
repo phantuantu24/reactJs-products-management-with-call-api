@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Getting Started with NPM install some package
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### `npm install redux`
+### `npm install react-redux`
+### `npm install react-router-dom`
 
 ## Available Scripts
 
