@@ -13,7 +13,7 @@ class ProductList extends Component {
             <thead>
               <tr>
                 <th><strong>No</strong></th>
-                <th><strong>Code</strong></th>
+                <th><strong>Id</strong></th>
                 <th><strong>Name</strong></th>
                 <th><strong>Price</strong></th>
                 <th><strong>Status</strong></th>

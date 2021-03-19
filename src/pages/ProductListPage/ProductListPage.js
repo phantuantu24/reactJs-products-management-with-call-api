@@ -18,6 +18,7 @@ function ProductListPage() {
           key={index}
           product={product}
           index={index}
+          onDeleteById={onDelete}
         />
       ))
     }
@@ -29,6 +30,28 @@ function ProductListPage() {
       setProducts(res.data)
     })
   }, [])
+
+  const onDelete = (id) => {
+    callApi(`products/${id}`, 'DELETE', null).then(res => {
+      if (res.status === 200) {
+        var index = findIndexById(products, id)
+        if (index !== -1) {
+          products.splice(index, 1)
+          setProducts([...products])
+        }
+      }
+    })
+  }
+
+  const findIndexById = (products, id) => {
+    var result = -1
+    products.forEach((product, index) => {
+      if (product.id === id) {
+        result = index
+      }
+    });
+    return result
+  }
 
   return (
     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
