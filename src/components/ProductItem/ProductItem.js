@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './ProductItem.css';
 
 class ProductItem extends Component {
+
+  onDelete = (id, name) => {
+    if (window.confirm(`Are you sure to delete ${name}`)) {
+      this.props.onDeleteById(id)
+    }
+  }
+
   render() {
 
     const { product, index } = this.props
@@ -19,7 +26,7 @@ class ProductItem extends Component {
         </td>
         <td>
           <button type="button" className="btn btn-success mr-10">Edit</button>
-          <button type="button" className="btn btn-danger">Delete</button>
+          <button type="button" className="btn btn-danger" onClick={() => this.onDelete(product.id, product.name)}>Delete</button>
         </td>
       </tr>
     );
