@@ -13,7 +13,7 @@ class ProductItem extends Component {
         <td>{index + 1}</td>
         <td>{product.id}</td>
         <td>{product.name}</td>
-        <td>{product.price}</td>
+        <td>{product.price}$</td>
         <td>
           <span className={`label label-${statusClass}`}>{statusName}</span>
         </td>
