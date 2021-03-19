@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import ProductItem from '../../components/ProductItem/ProductItem';
 import ProductList from '../../components/ProductList/ProductList';
+import callApi from '../../utils-(api)/apiCaller'
 import './ProductListPage.css';
 
-class ProductListPage extends Component {
+function ProductListPage() {
 
-  showProductItem = (products) => {
+  const [products, setProducts] = useState([])
+
+  const showProductItem = (products) => {
     var result = null
     if (products.length > 0) {
       result = products.map((product, index) => (
-        <ProductItem 
+        <ProductItem
           key={index}
           product={product}
           index={index}
@@ -20,17 +23,20 @@ class ProductListPage extends Component {
     return result
   }
 
-  render() {
-    const { products } = this.props
-    return (
-      <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button type="button" className="btn btn-success">Add New Product</button><hr />
-        <ProductList>
-          { this.showProductItem(products) }
-        </ProductList>
-      </div>
-    );
-  }
+  useEffect(() => {
+    callApi('products', 'GET', null).then(res => {
+      setProducts(res.data)
+    })
+  }, [])
+
+  return (
+    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button type="button" className="btn btn-success">Add New Product</button><hr />
+      <ProductList>
+        {showProductItem(products)}
+      </ProductList>
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {
