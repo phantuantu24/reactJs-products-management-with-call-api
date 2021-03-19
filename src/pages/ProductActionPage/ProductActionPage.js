@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import callApi from '../../utils-(api)/apiCaller'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import './ProductActionPage.css';
 
 function ProductActionPage() {
@@ -13,6 +13,23 @@ function ProductActionPage() {
   })
 
   const history = useHistory()
+  const match = useRouteMatch()
+  const idEdit = match.params.id
+
+  useEffect(() => {
+    if (idEdit) {
+      callApi(`products/${idEdit}`, 'GET', null).then(res => {
+        console.log(res)
+        const data = res.data
+        setStateForm({
+          id: data.id,
+          txtName: data.name,
+          price: data.price,
+          checkBox: data.status
+        })
+      })
+    }
+  }, [])
 
   const onDataChange = (e) => {
     var target = e.target
@@ -26,19 +43,29 @@ function ProductActionPage() {
 
   const onSave = (e) => {
     e.preventDefault()
-    callApi('products', 'POST', {
-      name: stateForm.txtName,
-      price: stateForm.price,
-      status: stateForm.checkBox
-    }).then(res => {
-      history.goBack()
-    })
+    if (!idEdit) {
+      callApi('products', 'POST', {
+        name: stateForm.txtName,
+        price: stateForm.price,
+        status: stateForm.checkBox
+      }).then(res => {
+        history.goBack()
+      })
+    } else {
+      callApi(`products/${idEdit}`, 'PUT', {
+        name: stateForm.txtName,
+        price: stateForm.price,
+        status: stateForm.checkBox
+      }).then(res => {
+        history.goBack()
+      })
+    }
   }
 
   return (
     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <form onSubmit={onSave}>
-        <legend>Add New Product</legend>
+        <legend>{idEdit ? 'Edit' : 'Add New'} Product</legend>
         <div className="form-group">
           <label>Product Name</label>
           <input
@@ -68,12 +95,13 @@ function ProductActionPage() {
                 name="checkBox"
                 value={stateForm.checkBox}
                 onChange={onDataChange}
+                checked={stateForm.checkBox}
               />
                 In Stock
               </label>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary mr-10">Add</button>
+        <button type="submit" className="btn btn-primary mr-10">{idEdit ? 'Edit' : 'Add'}</button>
         <Link to="/product-list" className="btn btn-danger">Back</Link>
       </form>
     </div>

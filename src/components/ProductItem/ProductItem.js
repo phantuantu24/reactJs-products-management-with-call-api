@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import './ProductItem.css';
 
 class ProductItem extends Component {
@@ -25,8 +26,19 @@ class ProductItem extends Component {
           <span className={`label label-${statusClass}`}>{statusName}</span>
         </td>
         <td>
-          <button type="button" className="btn btn-success mr-10">Edit</button>
-          <button type="button" className="btn btn-danger" onClick={() => this.onDelete(product.id, product.name)}>Delete</button>
+          <Link
+            to={`/product/${product.id}/edit`}
+            className="btn btn-success mr-10"
+          >
+            Edit
+          </Link>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => this.onDelete(product.id, product.name)}
+          >
+            Delete
+          </button>
         </td>
       </tr>
     );
