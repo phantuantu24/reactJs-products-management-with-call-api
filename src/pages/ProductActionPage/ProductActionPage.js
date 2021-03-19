@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import callApi from '../../utils-(api)/apiCaller'
+import { Link, useHistory } from 'react-router-dom'
 import './ProductActionPage.css';
 
 function ProductActionPage() {
@@ -10,6 +11,8 @@ function ProductActionPage() {
     price: 0,
     checkBox: false
   })
+
+  const history = useHistory()
 
   const onDataChange = (e) => {
     var target = e.target
@@ -28,7 +31,7 @@ function ProductActionPage() {
       price: stateForm.price,
       status: stateForm.checkBox
     }).then(res => {
-      console.log(res)
+      history.goBack()
     })
   }
 
@@ -70,7 +73,8 @@ function ProductActionPage() {
               </label>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">Add</button>
+        <button type="submit" className="btn btn-primary mr-10">Add</button>
+        <Link to="/product-list" className="btn btn-danger">Back</Link>
       </form>
     </div>
   );
