@@ -65,3 +65,19 @@ export const actGetProduct = (product) => {
     product
   }
 }
+
+// Update Product
+export const actUpdateProductRequest = (product) => {
+  return (dispatch) => {
+    return callApi(`products/${product.id}`, 'PUT', product).then(res => {
+      dispatch(actUpdateProduct(res.data))
+    })
+  }
+}
+
+export const actUpdateProduct = (product) => {
+  return {
+    type: Types.UPDATE_PRODUCTS,
+    product
+  }
+}
