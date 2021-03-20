@@ -7,3 +7,6 @@
 # Http Library
 
 ### `npm install axios`
+
+# Install MiddleWare
+### `npm install redux-thunk`
