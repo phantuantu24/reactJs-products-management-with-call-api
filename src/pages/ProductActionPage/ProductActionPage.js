@@ -20,18 +20,9 @@ class ProductActionPage extends Component {
 
   componentDidMount() {
     const { match } = this.props
-    const idEdit = match.params.id
-    if (idEdit) {
-      callApi(`products/${idEdit}`, 'GET', null).then(res => {
-        console.log(res)
-        const data = res.data
-        this.setState({
-          id: data.id,
-          txtName: data.name,
-          price: data.price,
-          checkBox: data.status
-        })
-      })
+    const id = match.params.id
+    if (id) {
+      this.props.onEditProduct(id)
     }
   }
 
@@ -48,8 +39,8 @@ class ProductActionPage extends Component {
     e.preventDefault()
     const { txtName, price, checkBox } = this.state
     const { history, match } = this.props
-    const idEdit = match.params.id
-    if (!idEdit) {
+    const id = match.params.id
+    if (!id) {
       this.props.onAddProduct({
         name: txtName,
         price: price,
@@ -57,7 +48,7 @@ class ProductActionPage extends Component {
       })
       history.goBack()
     } else {
-      callApi(`products/${idEdit}`, 'PUT', {
+      callApi(`products/${id}`, 'PUT', {
         name: txtName,
         price: price,
         status: checkBox
@@ -66,14 +57,15 @@ class ProductActionPage extends Component {
       })
     }
   }
+
   render() {
     const { txtName, price, checkBox } = this.state
     const { match } = this.props
-    const idEdit = match.params.id
+    const id = match.params.id
     return (
       <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <form onSubmit={this.onSave}>
-          <legend>{idEdit ? 'Edit' : 'Add New'} Product</legend>
+          <legend>{id ? 'Edit' : 'Add New'} Product</legend>
           <div className="form-group">
             <label>Product Name</label>
             <input
@@ -109,7 +101,7 @@ class ProductActionPage extends Component {
                 </label>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary mr-10">{idEdit ? 'Edit' : 'Add'}</button>
+          <button type="submit" className="btn btn-primary mr-10">{id ? 'Edit' : 'Add'}</button>
           <Link to="/product-list" className="btn btn-danger">Back</Link>
         </form>
       </div>
@@ -121,6 +113,9 @@ const matDispatchToProps = (dispatch, props) => {
   return {
     onAddProduct: (product) => {
       dispatch(Actions.actAddProductRequest(product))
+    },
+    onEditProduct: (id) => {
+      dispatch(Actions.actGetProductRequest(id))
     }
   }
 }
