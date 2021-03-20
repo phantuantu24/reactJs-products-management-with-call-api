@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import callApi from '../../utils-(api)/apiCaller'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import * as Actions from '../../actions/index'
@@ -26,6 +25,18 @@ class ProductActionPage extends Component {
     }
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      const { itemEditing } = nextProps
+      this.setState({
+        id: itemEditing.id,
+        txtName: itemEditing.name,
+        price: itemEditing.price,
+        checkBox: itemEditing.status
+      })
+    }
+  }
+
   onDataChange = (e) => {
     var target = e.target
     var name = target.name
@@ -37,25 +48,21 @@ class ProductActionPage extends Component {
 
   onSave = (e) => {
     e.preventDefault()
-    const { txtName, price, checkBox } = this.state
+    const { id, txtName, price, checkBox } = this.state
     const { history, match } = this.props
-    const id = match.params.id
-    if (!id) {
-      this.props.onAddProduct({
-        name: txtName,
-        price: price,
-        status: checkBox
-      })
-      history.goBack()
-    } else {
-      callApi(`products/${id}`, 'PUT', {
-        name: txtName,
-        price: price,
-        status: checkBox
-      }).then(res => {
-        history.goBack()
-      })
+    const idEdit = match.params.id
+    const newProduct = {
+      id: id,
+      name: txtName,
+      price: price,
+      status: checkBox
     }
+    if (!idEdit) {
+      this.props.onAddProduct(newProduct)
+    } else {
+      this.props.onUpdateProduct(newProduct)
+    }
+    history.goBack()
   }
 
   render() {
@@ -109,6 +116,12 @@ class ProductActionPage extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    itemEditing: state.itemEditing
+  }
+}
+
 const matDispatchToProps = (dispatch, props) => {
   return {
     onAddProduct: (product) => {
@@ -116,8 +129,11 @@ const matDispatchToProps = (dispatch, props) => {
     },
     onEditProduct: (id) => {
       dispatch(Actions.actGetProductRequest(id))
+    },
+    onUpdateProduct: (product) => {
+      dispatch(Actions.actUpdateProductRequest(product))
     }
   }
 }
 
-export default connect(null, matDispatchToProps)(ProductActionPage);
+export default connect(mapStateToProps, matDispatchToProps)(ProductActionPage);

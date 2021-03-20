@@ -7,7 +7,6 @@ const itemEditing = (state = initialState, action) => {
     switch (action.type) {
         case Types.EDIT_PRODUCTS:
             state = product
-            console.log(product)
             return state;
         default:
             return state;
