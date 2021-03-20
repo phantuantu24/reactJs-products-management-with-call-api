@@ -4,7 +4,7 @@ const initialState = []
 
 const products = (state = initialState, action) => {
   var index = -1
-  const { id } = action
+  const { id, product } = action
   switch (action.type) {
     case Types.FETCH_PRODUCTS:
       state = action.products
@@ -14,6 +14,9 @@ const products = (state = initialState, action) => {
       if (index !== -1) {
         state.splice(index, 1)
       }
+      return [...state]
+    case Types.ADD_PRODUCTS:
+      state.push(product)
       return [...state]
     default:
       return [...state]

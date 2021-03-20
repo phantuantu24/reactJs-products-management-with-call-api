@@ -8,14 +8,6 @@ import './ProductListPage.css';
 
 class ProductListPage extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      products: []
-    }
-  }
-
   componentDidMount() {
     this.props.fetchAllProducts()
   }
