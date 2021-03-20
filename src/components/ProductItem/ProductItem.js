@@ -11,7 +11,6 @@ class ProductItem extends Component {
   }
 
   render() {
-
     const { product, index } = this.props
     const statusName = product.status ? 'In Stock' : 'Out of Stock'
     const statusClass = product.status ? 'success' : 'danger'
